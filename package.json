@@ -1,0 +1,28 @@
+{
+  "name": "cah",
+  "version": "1.0.0",
+  "description": "Cards Against Humanity",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/iamjoshhansen/cards-against-humanity.git"
+  },
+  "main": "./dist/index.js",
+  "scripts": {
+    "start": "node ./dist/index.js",
+    "test": "mocha"
+  },
+  "keywords": [
+    "CardGame",
+    "Game"
+  ],
+  "author": "Joshua Hansen",
+  "dependencies": {
+    "socket.io": "^2.0.3"
+  },
+  "devDependencies": {
+    "@types/node": "^8.0.44",
+    "@types/socket.io": "^1.4.31",
+    "chai": "^4.1.2",
+    "mocha": "^4.0.1"
+  }
+}
