@@ -1,12 +1,25 @@
+import { readFileSync } from 'fs';
 import Player from './player';
 import BlackCard from './card-black';
 import WhiteCard from './card-white';
 import WhiteStack from './stack-white';
 import BlackStack from './stack-black';
+import logger from './util/logger';
+const sleep = require('sleep');
+
+const log = logger('game');
 
 type submission = {
   player:Player,
   cards:WhiteStack,
+};
+
+type CardInfo = {
+  id:number,
+  cardType:'A'|'Q',
+  text:string,
+  numAnswers:number,
+  expansion:string,
 };
 
 export default class Game {
@@ -33,6 +46,34 @@ export default class Game {
     this.blackCards = opts.blackCards || new BlackStack('black draw pile');
     this.discardStack = opts.discardStack || new WhiteStack('discard pile');
     this.submissions = opts.submissions || [];
+  }
+
+  loadCardsFromFile(filename:string) {
+    log(`Loading cards from '${filename}'`);
+    const cards:Array<CardInfo> = [];
+
+    const cardsJson = readFileSync(filename).toString();
+    const cardsData:Array<CardInfo> = JSON.parse(cardsJson);
+
+    log(`Loading ${cardsData.length} cards`);
+    cardsData.forEach((info) => {
+      const opts = {
+        id: info.id,
+        type: info.cardType == 'A' ? 'white' : 'black',
+        content: info.text,
+        numAnswers: info.numAnswers,
+        expansion: info.expansion,
+      };
+      if (opts.type == 'white') {
+        const card = new WhiteCard(opts);
+        this.whiteCards.addCard(card);
+      } else {
+        const card = new BlackCard(opts);
+        this.blackCards.addCard(card);
+      }
+
+      sleep.msleep(1);
+    });
   }
 
   setActiveBlackCard (card:BlackCard) : this {

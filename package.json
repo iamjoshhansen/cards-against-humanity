@@ -17,6 +17,9 @@
   ],
   "author": "Joshua Hansen",
   "dependencies": {
+    "dateformat": "^3.0.2",
+    "log-update": "^2.2.0",
+    "sleep": "^5.1.1",
     "socket.io": "^2.0.3"
   },
   "devDependencies": {
